@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TELUS GTLP Interview Prep - Flashcards</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: white;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .flashcard-wrapper {
+            perspective: 1000px;
+            margin-bottom: 30px;
+        }
+
+        .flashcard {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front,
+        .flashcard-back {
+            backface-visibility: hidden;
+        }
+
+        .flashcard-back {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-label {
+            font-size: 0.9rem;
+            color: #667eea;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .flashcard-question {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .flashcard-answer {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .key-points {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .key-points-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .key-points-list {
+            list-style: none;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .key-points-list li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .key-points-list li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .delivery-notes {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid #ffc107;
+        }
+
+        .delivery-notes-title {
+            font-weight: 600;
+            color: #856404;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .delivery-notes-text {
+            font-size: 0.85rem;
+            color: #856404;
+            line-height: 1.6;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: #667eea;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button.primary {
+            background: #667eea;
+            color: white;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .stats {
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .flip-hint {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .flashcard {
+                padding: 25px;
+                min-height: 250px;
+            }
+
+            .flashcard-question {
+                font-size: 1.3rem;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>TELUS GTLP Interview Prep</h1>
+            <p>Click to flip · Practice your responses</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="stats">
+            <span id="cardCounter">Card 1 of 5</span>
+        </div>
+
+        <div class="flashcard-wrapper">
+            <div class="flashcard" id="flashcard">
+                <div class="flashcard-front">
+                    <div class="flashcard-label">Question</div>
+                    <div class="flashcard-question" id="question"></div>
+                    <div class="flip-hint">👆 Click to reveal answer</div>
+                </div>
+                <div class="flashcard-back">
+                    <div class="flashcard-label">Answer</div>
+                    <div class="flashcard-answer" id="answer"></div>
+                    <div class="key-points" id="keyPointsSection">
+                        <div class="key-points-title">Key Talking Points:</div>
+                        <ul class="key-points-list" id="keyPoints"></ul>
+                    </div>
+                    <div class="delivery-notes" id="deliveryNotesSection">
+                        <div class="delivery-notes-title">💡 Delivery Notes:</div>
+                        <div class="delivery-notes-text" id="deliveryNotes"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="prevBtn" onclick="previousCard()" >← Previous</button>
+            <button class="primary" id="flipBtn" onclick="flipCard()">Flip Card</button>
+            <button id="nextBtn" onclick="nextCard()">Next →</button>
+        </div>
+
+        <div style="text-align: center; color: white; font-size: 0.9rem;">
+            <p>Week 1: Foundation Questions</p>
+            <p style="opacity: 0.8; margin-top: 10px;">Questions 3-5 coming soon 🎯</p>
+        </div>
+    </div>
+
+    <script>
+        const flashcards = [
+            {
+                question: "Tell me about yourself",
+                answer: "I'm a recent SANS graduate with honors, and I'm a Security Engineer at a startup where I've built security from the ground up — compliance frameworks, awareness training, the whole foundation. My superpower is security awareness — I've trained 200+ Amazon employees and supported their cybersecurity hands-on learning journey. I also just started a real web app pentest, and I founded a cybersecurity club at my university that partnered with the CISO of Microsoft Canada and IBM.",
+                keyPoints: [
+                    "Recent SANS grad + honors (credibility)",
+                    "Security Engineer at startup (current role)",
+                    "Built from ground up (ownership + impact)",
+                    "200+ trained (proof of superpower)",
+                    "Real pentest underway (technical chops)",
+                    "Club + partnerships (leadership)"
+                ],
+                deliveryNotes: "~60 seconds total. Pause between thoughts (don't rush). Natural cadence, conversational tone. Stop talking — let them ask next question."
+            },
+            {
+                question: "What draws you specifically to TELUS and the GTLP program?",
+                answer: "So what really drew me to GTLP is the 9-month rotation structure. I'm working in threat detection, DevSecOps, and cloud security at my startup, and I want deeper hands-on experience across different teams. I'm comfortable with GitHub and GitLab, and I have foundational SIEM knowledge from OpenSearch and LetsDefend. But Splunk, Jenkins, and enterprise-scale cloud security — that's where I want to grow under mentorship. TELUS's approach to scaling security and building real customer impact is exactly where I want to develop my leadership skills and eventually lead.",
+                keyPoints: [
+                    "9-month rotation model (the differentiator)",
+                    "Current work: threat detection, DevSecOps, cloud security",
+                    "Tools you're solid with: GitHub, GitLab, OpenSearch, LetsDefend",
+                    "Honest about gaps: Splunk, Jenkins are new territory",
+                    "TELUS culture fit: innovation + customer impact",
+                    "Leadership growth trajectory"
+                ],
+                deliveryNotes: "Start with 'So what really drew me...' (natural opener). Be honest about experience level. Turn gaps into learning motivation. Close with leadership intent. Conversational, not rehearsed."
+            },
+            {
+                question: "Can you walk me through a challenge you faced and how you solved it?",
+                answer: "[STAR Format - Prepare your response]\nSituation: Describe the context\nTask: What was your responsibility\nAction: What specific steps did you take\nResult: What was the outcome & impact",
+                keyPoints: [
+                    "Use STAR format (Situation, Task, Action, Result)",
+                    "Pick a real challenge with measurable impact",
+                    "Show problem-solving & technical skills",
+                    "Highlight ownership & initiative",
+                    "Connect to TELUS role if possible"
+                ],
+                deliveryNotes: "Keep to 2-3 minutes. Focus on YOUR actions, not the team's. Quantify results when possible. Practice out loud with natural pauses."
+            },
+            {
+                question: "Tell me about your security awareness training experience",
+                answer: "[Use your 200+ Amazon employees example]\nHighlight: training design, delivery, impact measurement, and what you learned about scale.",
+                keyPoints: [
+                    "Scale: 200+ Amazon employees trained",
+                    "Program design & content creation",
+                    "Delivery method (workshops, hands-on, etc.)",
+                    "Measurable impact (behavior change, compliance)",
+                    "Lessons learned about awareness at scale",
+                    "How this applies to TELUS's culture"
+                ],
+                deliveryNotes: "Show enthusiasm. Numbers + impact matter. Be specific about what made it effective. Connect to TELUS's security culture."
+            },
+            {
+                question: "What's one area where you want to grow technically?",
+                answer: "[Choose strategically - align with GTLP]\nOptions: Splunk, Jenkins, enterprise cloud security, or advanced threat detection.",
+                keyPoints: [
+                    "Pick something realistic (not too easy, not impossible)",
+                    "Explain WHY you want to grow here",
+                    "Connect to GTLP rotations where you'll learn it",
+                    "Show self-awareness & growth mindset",
+                    "Mention resources you're already using"
+                ],
+                deliveryNotes: "Don't say 'I want to learn everything' — be specific. Show you've already started learning (courses, projects, etc.). Frame as opportunity, not weakness."
+            }
+        ];
+
+        let currentIndex = 0;
+        let isFlipped = false;
+
+        function loadCard() {
+            const card = flashcards[currentIndex];
+            document.getElementById('question').textContent = card.question;
+            document.getElementById('answer').textContent = card.answer;
+
+            const keyPointsList = document.getElementById('keyPoints');
+            keyPointsList.innerHTML = '';
+            card.keyPoints.forEach(point => {
+                const li = document.createElement('li');
+                li.textContent = point;
+                keyPointsList.appendChild(li);
+            });
+
+            document.getElementById('deliveryNotes').textContent = card.deliveryNotes;
+            document.getElementById('cardCounter').textContent = `Card ${currentIndex + 1} of ${flashcards.length}`;
+
+            updateProgress();
+            resetFlip();
+            updateButtonStates();
+        }
+
+        function flipCard() {
+            const flashcard = document.getElementById('flashcard');
+            flashcard.classList.toggle('flipped');
+            isFlipped = !isFlipped;
+            document.getElementById('flipBtn').textContent = isFlipped ? '← Back to Question' : 'Flip Card';
+        }
+
+        function nextCard() {
+            if (currentIndex < flashcards.length - 1) {
+                currentIndex++;
+                loadCard();
+            }
+        }
+
+        function previousCard() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                loadCard();
+            }
+        }
+
+        function resetFlip() {
+            document.getElementById('flashcard').classList.remove('flipped');
+            isFlipped = false;
+            document.getElementById('flipBtn').textContent = 'Flip Card';
+        }
+
+        function updateProgress() {
+            const progress = ((currentIndex + 1) / flashcards.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function updateButtonStates() {
+            document.getElementById('prevBtn').disabled = currentIndex === 0;
+            document.getElementById('nextBtn').disabled = currentIndex === flashcards.length - 1;
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') previousCard();
+            if (e.key === 'ArrowRight') nextCard();
+            if (e.key === ' ') {
+                e.preventDefault();
+                flipCard();
+            }
+        });
+
+        // Initialize
+        loadCard();
+    </script>
+</body>
+</html>
+
