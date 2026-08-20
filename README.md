@@ -1,9 +1,9 @@
 # About Me
 <h3 align="center">Platform Security Engineer and passionate Security Awareness Specialist from Canada</h3>
 
-- 🌱 I’m currently learning **DevSecOps, Web Application Pentesting and AI Governance**
+- 🌱 I’m currently learning **DevSecOps, Cloud Security and AI Governance**
 
-- 👯 I’m looking to collaborate on **AI Governance Consulting services**
+- 👯 I’m looking to collaborate on **Cybersecurity Consulting services** for SMBs.
 
 - 💬 Ask me about **cybersecurity** and **productivity tools** to level up your daily workflow
 
